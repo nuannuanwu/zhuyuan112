@@ -1,0 +1,19 @@
+/************************************************************************
+*
+*    description         : ie7&8下的效果美化
+*    create              : 2012-10-16  Renz
+*
+*
+*************************************************************************/
+.container{
+	width:960px;
+}
+.kTiles .tile .thumbnail, .kCal-item, .btn,#tileView .main,#tileView .sidebar{
+	border-top:1px solid #dedcdd;
+	border-left:1px solid #c9c7c8;
+	border-right:1px solid #c9c7c8;
+	border-bottom:2px solid #c9c7c8;
+}
+.kCal-cookbook{
+	border:2px solid #999;
+}

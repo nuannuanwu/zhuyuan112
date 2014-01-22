@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load pagination_tags memory_tags i18n%}
+
+{% block extra_css %}
+<style type="text/css">
+#footer{position:fixed;left:0;bottom:0;}
+.thumbnails, .row{margin-left:0;}
+.thumbnails ul{margin-left:0;}
+.thumbnails > li{margin:0 14px 14px 0;}
+.kBabyA:hover{ text-decoration: none;}
+.kTileBar { padding-bottom: 0; *padding-bottom: 20px;}
+.kTileBar .btn-group{ margin-bottom: 20px; }
+.kTileBar, .row{padding-left:15px;}
+#container{width: 1190px;}
+.kCategory{ margin-bottom: 20px;}
+.kCategory td{ border: 1px solid #DDD; vertical-align: top; width: 458px }
+.kCategory td.single{ width: 919px}
+.kCategory-item{ padding: 15px 30px; margin-bottom: -8px}
+.kCategory .item-icon{ float: left; width: 48px; height: 48px; display: inline-block; }
+.kCategory .item-body{ margin:0 -6px 0 61px}
+.kCategory .body-title{ line-height: 1.6; font-size: 14px; font-weight: normal; color: #AAA; margin: 0; margin-bottom: 5px}
+.kCategory .body-categorys a{ float: left; line-height: 1; white-space: nowrap; color: #545454; font-size: 14px;  padding: 5px 6px; margin:0 3px 8px 0; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius:4px;}
+.kCategory .body-categorys a:hover,.kCategory .body-categorys a.ac{background-color: #EDEDED; text-decoration: none;}
+.kCategory .body-categorys a.ac{ color: #B88500;}
+.friend{width: 125px}
+#ddNav{height: 50px;line-height: 50px;background: #111;width: 1160px;}
+#ddNav .xdo {overflow: hidden;zoom: 1;width: 1160px;margin: 0 auto;}
+#ddNav .xdo li {float: left;background: #555;width: 10%;display: inline;text-align: center;list-style: none;height: 50px;}
+#ddNav .xdo li a .active {background: #54bfff !important;}
+#ddNav .xdo li a:hover {text-decoration: none;background: #000;}
+#ddNav .xdo li a {color: #fff;text-decoration: none;font-size: 22px;font-family: Microsoft YaHei;display: block;text-align: center;height: 50px;vertical-align: middle;padding-top: 13px;}
+</style>
+{% endblock %}
+{% block content %}
+{% if request.user.friend %}
+<div id="ddNav">
+<ul class="xdo">
+<li><a href="{% url home %}" {% if not q %}style="background: #54bfff"{% endif %}>公开</a></li>
+<li><a href="{% url home %}?q=all" {% ifequal q 'all' %}style="background: #54bfff"{% endifequal %}>竹园一个窝</a></li>
+{% for f in friends %}
+<li><a href="{% url home %}?q={{f.user.id}}" {% if q == f.user.id %}style="background: #54bfff"{% endif %}>{{f.name}}</a></li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+<div id="tile-flow">
+    <ul class="thumbnails kTiles">  
+   	{% if tiles %}
+   	{% autopaginate tiles 15 %}
+    
+    {% include "memory/tile_index_container.html" with tiles=tiles %}
+    
+    {% else %}
+    <li class="span3 tile"><div class="thumbnail" style="height: 200px;"></div></li>
+    <li class="span3 tile"><div class="thumbnail" style="height: 200px;"></div></li>
+    <li class="span3 tile"><div class="thumbnail" style="height: 200px;"></div></li>
+    <li class="span3 tile"><div class="thumbnail" style="height: 200px;"></div></li>
+    <li class="span3 tile"><div class="thumbnail" style="height: 200px;"></div></li>
+    <li class="span3 tile"><div class="thumbnail" style="height: 200px;"></div></li>
+    <li class="kNoContent" style="top:30px;right:230px;">
+        <span style="font-size:20px;display:block;margin-top: 50px;">暂无相关内容，请稍后访问</span>  
+    </li>
+    {% endif %}
+    </ul>
+<div id="infscr-loading" style="display: none; ">
+    <img alt="Loading..." src="{{ STATIC_URL }}memory/img/6RMhx.gif">
+    <div>
+        <em>正在加载...</em>
+    </div>
+</div>
+
+<div id="pagination" style="display:none;">
+    {% paginate %}
+</div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{{ STATIC_URL }}memory/js/tile.js" type="text/javascript"></script>
+<script type="text/javascript">
+window.NOAUTOFOOT = 1;
+</script>
+<script type="text/javascript">
+	$(function(){
+			var hasdiv=$(".walink > ul > li.hasdata");
+			var hidiv=$(".walink > ul > li.hasdata > .divhidden");
+			hidiv.hide();
+			hasdiv.hover(function(){
+				$(this).children(".divhidden").slideToggle(200);
+			},function(){
+				$(this).children(".divhidden").hide();
+				})
+			$("#ddNav a").click(function(){
+                $("#ddNav a").attr("style","")
+                $(this).attr("style","background: #54bfff")
+            })	
+		})
+</script>
+{% endblock %}
+

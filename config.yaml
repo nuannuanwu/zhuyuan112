@@ -1,0 +1,22 @@
+name: jytn365
+version: 1
+libraries:
+- name: django
+  version: "1.4"
+- name: lxml
+  version: "2.3.4"
+  
+handle:
+- expire: if(path ~ ".js$") time 8640000
+- expire: if(path ~ ".css$") time 8640000
+- compress: if ( out_header["Content-Length"]>=50) compress
+- compress: if ( out_header["Content-Type"]=="text/css" ) compress
+- compress: if ( out_header["Content-Type"]=="text/javascript" ) compress
+- compress: if ( out_header["Content-Type"]=="text/html" ) compress
+- compress: if ( out_header["Content-Type"]=="text/plain" ) compress
+- compress: if ( out_header["Use-Compress"] == "1") compress
+
+handlers:
+- url: /_static
+  static_dir: memory/static
+  gzip: on

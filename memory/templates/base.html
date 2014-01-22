@@ -1,0 +1,82 @@
+{% load i18n memory_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no">
+    <meta name="keywords" content="{% block meta_keywords %}{% endblock %}">
+    <meta name="description" content="{% block meta_description %}{% endblock %}">
+    <title>{% block meta_title %}{% endblock %}zhuyuan</title>
+    <link rel="shortcut icon" href="{{ STATIC_URL }}img/bamboo2.ico">
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}font-awesome/css/font-awesome.css">
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="{{ STATIC_URL }}font-awesome/css/font-awesome-ie7.css">
+    <![endif]-->
+    <link rel="stylesheet" href="{{ STATIC_URL }}memory/css/base.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}memory/css/site.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}memory/css/ipad.css" @media="only screen and (device-width : 768px)">
+    {% block extra_css %}{% endblock %}
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="{{ STATIC_URL }}memory/css/ie78.css">
+    <![endif]-->
+
+    <script src="{{ STATIC_URL }}memory/plugins/jquery-1.7.2.min.js"></script>
+    <script src="{{ STATIC_URL }}memory/plugins/jquery.hope12580.plugins.min.js"></script>
+    <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
+    <script src="{{ STATIC_URL }}memory/js/base.js"></script>
+    <script src="{{ STATIC_URL }}memory/js/html5video.js"></script>
+
+    <script type="text/javascript">
+    $(function() {
+        $('.middleinput:text, textarea').addClass('xlarge');
+        $('small[rel=tooltip]').tooltip()
+        $('a[rel=popover]').popover()
+        $('a[rel=namecard]').namecard()
+
+        $('img[rel=imgLoad]').css({ opacity: 0 });
+        $('img[rel=imgLoad]').imagesLoaded(function( $images, $proper, $broken ){
+            $images.each( function() {
+                $(this).not(":animated").animate({ opacity: 1 })
+            });
+        }).progress(function( isBroken, $images, $proper, $broken ){
+            this.animate({opacity: 1})
+        });
+        
+		
+    });
+    </script>
+    {% block extra_js %}{% endblock %}
+
+
+{% block extra_head %}{% endblock %}
+</head>
+
+<body id="{% block body_id %}body{% endblock %}">
+    {% include "nav_bar.html" %}
+    <div style="background: #000;"><img style="position: fixed;left: 0px;top: 0px;width: 100%;opacity: 0.8;z-index: -1;" src="{{ STATIC_URL }}img/default.jpg" alt="Background"></div>
+    <div class="container" id="container">
+        {% block tile_bar %}{% endblock %}
+        {% block page-header %}{% endblock %}
+        <div class="row">
+            {% block extra_row_begin %}{% endblock %}
+
+            {% block main %}{% endblock %}
+            {% block content %}{% endblock %}
+
+            {% block extra_row_end %}{% endblock %}
+        </div>
+    </div>
+    <div id="footer">
+    	{% block footer %}{% endblock %}
+    	<script>
+    		$('body').change(function(){AutoFoot()})
+    		AutoFoot()
+    	</script>
+		<div class="container">
+    		<span class="pull-left">&copy;zhuyuan</span>
+		</div>
+    </div>
+</body>
+</html>
